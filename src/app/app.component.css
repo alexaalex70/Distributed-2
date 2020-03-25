@@ -1,0 +1,33 @@
+.card {
+  position:absolute;
+  top: 20%;
+  left: 25%
+}
+
+.required:after {
+  content: " *";
+  color: red;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.fileInput {
+  width: 40%;
+  margin-right: 10px;
+}
+
+.uploadSection {
+  text-align: center;
+}
+
+.saveSection {
+  margin-top: 1rem;
+  text-align: center;
+}
