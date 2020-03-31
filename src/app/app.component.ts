@@ -49,14 +49,16 @@ export class AppComponent implements OnInit {
     this.selectedFile.pending = true;
     this.uploadImage(this.selectedFile.file).subscribe(
       (res) => {
+        console.log(res);
         this.onSuccess();
       },
       (err) => {
+        console.log(err);
         this.onError();
       })
   }
 
   uploadImage(file) {
-    return this.http.post('http://localhost:3000/image/upload', file);
+    return this.http.post('http://localhost:3000/image/upload', file, { responseType: 'text' });
   }
 }
