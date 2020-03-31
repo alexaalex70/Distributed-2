@@ -56,6 +56,8 @@ export class AppComponent implements OnInit {
     //     console.log(err);
     //     this.onError();
     //   })
+    const formData = new FormData();
+    formData.append("inputFile", this.selectedFile.file);
     console.log(this.selectedFile.file)
     fetch('http://localhost:3000/image/upload', { // Your POST endpoint
       method: 'POST',
@@ -64,7 +66,7 @@ export class AppComponent implements OnInit {
         // or you may need something
         "Content-Type": "You will perhaps need to define a content-type here"
       },
-      body: this.selectedFile.file // This is your file object
+      body: formData // This is your file object
     }).then(
       response => response.text() // if the response is a JSON object
     ).then(
