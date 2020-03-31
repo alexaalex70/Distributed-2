@@ -47,18 +47,34 @@ export class AppComponent implements OnInit {
   saveFile() {
     console.log(this.selectedFile.file);
     this.selectedFile.pending = true;
-    this.uploadImage(this.selectedFile.file).subscribe(
-      (res) => {
-        console.log(res);
-        this.onSuccess();
+    // this.uploadImage(this.selectedFile.file).subscribe(
+    //   (res) => {
+    //     console.log(res);
+    //     this.onSuccess();
+    //   },
+    //   (err) => {
+    //     console.log(err);
+    //     this.onError();
+    //   })
+    console.log(this.selectedFile.file)
+    fetch('http://localhost:3000/image/upload', { // Your POST endpoint
+      method: 'POST',
+      headers: {
+        // Content-Type may need to be completely **omitted**
+        // or you may need something
+        "Content-Type": "You will perhaps need to define a content-type here"
       },
-      (err) => {
-        console.log(err);
-        this.onError();
-      })
+      body: this.selectedFile.file // This is your file object
+    }).then(
+      response => response.text() // if the response is a JSON object
+    ).then(
+      success => this.onSuccess() // Handle the success response object
+    ).catch(
+      error => this.onError() // Handle the error response object
+    );
   }
 
   uploadImage(file) {
-    return this.http.post('http://localhost:3000/image/upload', file, { responseType: 'text' });
+    //return this.http.post('http://localhost:3000/image/upload', file, { responseType: 'text' });
   }
 }
