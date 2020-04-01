@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 class ImageSnippet {
@@ -57,14 +57,12 @@ export class AppComponent implements OnInit {
     //     this.onError();
     //   })
     const formData = new FormData();
-    formData.append("inputFile", this.selectedFile.file);
+    formData.append("inputFile", this.selectedFile.file, this.selectedFile.file.name);
     console.log(this.selectedFile.file)
     fetch('http://localhost:3000/image/upload', { // Your POST endpoint
       method: 'POST',
       headers: {
-        // Content-Type may need to be completely **omitted**
-        // or you may need something
-        "Content-Type": "You will perhaps need to define a content-type here"
+        "Content-Type": "multipart/form-data"
       },
       body: formData // This is your file object
     }).then(
@@ -76,7 +74,18 @@ export class AppComponent implements OnInit {
     );
   }
 
-  uploadImage(file) {
-    //return this.http.post('http://localhost:3000/image/upload', file, { responseType: 'text' });
-  }
+  // uploadImage(file) {
+  //   let headers = new HttpHeaders();
+  //   headers = headers.set('Content-Type', 'multipart//form-data');
+  //   const x = {
+  //     'x': 'dasdsakdfas'
+  //   };
+  //   const formData = new FormData();
+  //   formData.append("inputFile", this.selectedFile.file, this.selectedFile.file.name);
+  //   return this.http.post('http://localhost:3000/image/upload', x, {
+  //     reportProgress: true,
+  //     observe: 'events',
+  //     responseType: 'text',
+  //   });
+  // }
 }
