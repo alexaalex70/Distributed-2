@@ -38,6 +38,7 @@ export class AppComponent implements OnInit {
   }
 
   onFileChanged(event) {
+    console.log(event);
     if (event.target.files && event.target.files[0]) {
       this.selectedFile = new ImageSnippet(event.target.result, event.target.files[0]);
       this.fileName = event.target.files[0].name;
@@ -47,45 +48,38 @@ export class AppComponent implements OnInit {
   saveFile() {
     console.log(this.selectedFile.file);
     this.selectedFile.pending = true;
-    // this.uploadImage(this.selectedFile.file).subscribe(
-    //   (res) => {
-    //     console.log(res);
-    //     this.onSuccess();
-    //   },
-    //   (err) => {
-    //     console.log(err);
-    //     this.onError();
-    //   })
-    const formData = new FormData();
-    formData.append("inputFile", this.selectedFile.file, this.selectedFile.file.name);
-    console.log(this.selectedFile.file)
-    fetch('http://localhost:3000/image/upload', { // Your POST endpoint
-      method: 'POST',
-      headers: {
-        "Content-Type": "multipart/form-data"
+    this.uploadImage(this.selectedFile.file).subscribe(
+      (res) => {
+        console.log(res);
+        this.onSuccess();
       },
-      body: formData // This is your file object
-    }).then(
-      response => response.text() // if the response is a JSON object
-    ).then(
-      success => this.onSuccess() // Handle the success response object
-    ).catch(
-      error => this.onError() // Handle the error response object
-    );
+      (err) => {
+        console.log(err);
+        this.onError();
+      })
+    // const formData = new FormData();
+    // formData.append("inputFile", this.selectedFile.file, this.selectedFile.file.name);
+    // console.log(this.selectedFile.file)
+    // fetch('http://localhost:3000/image/upload', { // Your POST endpoint
+    //   method: 'POST',
+    //   body: formData // This is your file object
+    // }).then(
+    //   response => response.text() // if the response is a JSON object
+    // ).then(
+    //   success => this.onSuccess() // Handle the success response object
+    // ).catch(
+    //   error => this.onError() // Handle the error response object
+    // );
   }
 
-  // uploadImage(file) {
-  //   let headers = new HttpHeaders();
-  //   headers = headers.set('Content-Type', 'multipart//form-data');
-  //   const x = {
-  //     'x': 'dasdsakdfas'
-  //   };
-  //   const formData = new FormData();
-  //   formData.append("inputFile", this.selectedFile.file, this.selectedFile.file.name);
-  //   return this.http.post('http://localhost:3000/image/upload', x, {
-  //     reportProgress: true,
-  //     observe: 'events',
-  //     responseType: 'text',
-  //   });
-  // }
+  uploadImage(file) {
+    const formData = new FormData();
+    formData.append("image", this.selectedFile.file);
+    console.log(this.selectedFile);
+    return this.http.post('http://localhost:3000/image/upload', formData, {
+      reportProgress: true,
+      observe: 'events',
+      responseType: 'text',
+    });
+  }
 }
